@@ -4,20 +4,20 @@ cd `dirname $0`
 ./UNEM_update.sh
 case $? in
 0)
-	echo "¸üĞÂ³É¹¦"
+	echo "æ›´æ–°æˆåŠŸ"
 	;;
 1)
-	echo "¸üĞÂÊ§°Ü"
+	echo "æ›´æ–°å¤±è´¥"
 	;;
 2)
-	echo "ÕıÔÚ¸üĞÂÖĞ£¬ÇëÎğÖØ¸´ÔËĞĞ"
+	echo "æ­£åœ¨æ›´æ–°ä¸­ï¼Œè¯·å‹¿é‡å¤è¿è¡Œ"
 	;;
 3)
-	echo "ÒÑ¾­ÊÇ×îĞÂ°æ±¾"
+	echo "å·²ç»æ˜¯æœ€æ–°ç‰ˆæœ¬"
 	/opt/storage/UnblockNeteaseMusic/unblockmusic.sh restart
 	;;
 *)
-	echo "³öÎÊÌâÁË"
+	echo "å‡ºé—®é¢˜äº†"
 	#exit 0
 	;;
 esac

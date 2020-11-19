@@ -1,37 +1,35 @@
 #!/bin/sh
-#-------------¼ì²éÊÇ·ñÒÑ¾­ÔËÐÐ-------------------------------
+#-------------æ£€æŸ¥æ˜¯å¦å·²ç»è¿è¡Œ-------------------------------
 function check_if_already_running(){
 	running_tasks="$(ps |grep "unblockneteasemusic" |grep "UNEM_update" |grep -v "grep" |awk '{print $1}' |wc -l)"
-	[ "${running_tasks}" -gt "2" ] && echo -e "$(date -R) # A task is already running." >>/tmp/unblockmusic_update.log && exit 2
+	[ "${running_tasks}" -gt "2" ] && echo -e "$(date -R) # A task is already running." >>/tmp/unblockmusic.log && exit 2
 }
-#--------------¸üÐÂÈÕÖ¾---------------------------------
+#--------------æ›´æ–°æ—¥å¿—---------------------------------
 function clean_log(){
-	echo "" > /tmp/unblockmusic_update.log
+	echo "" > /tmp/unblockmusic.log
 }
-#------------¼ì²é¸üÐÂ-----------------------------------
+#------------æ£€æŸ¥æ›´æ–°-----------------------------------
 function check_latest_version(){
 	latest_ver="$(wget --no-check-certificate -O- https://github.com/Fred0104/UNEM-Script/commits/main |tr -d '\n' |grep -Eo 'commit\/[0-9a-z]+' |sed -n 1p |sed 's#commit/##g')"
-	[ -z "${latest_ver}" ] && echo -e "\nFailed to check latest version, please try again later." >>/tmp/unblockmusic_update.log && exit 1
+	[ -z "${latest_ver}" ] && echo -e "\nFailed to check latest version, please try again later." >>/tmp/unblockmusic.log && exit 1
 	if [ ! -e "/opt/storage/UnblockNeteaseMusic/local_ver" ]; then
-		clean_log
-		echo -e "Local version: NOT FOUND, cloud version: ${latest_ver}." >>/tmp/unblockmusic_update.log
+		echo -e "Local version: NOT FOUND, cloud version: ${latest_ver}." >>/tmp/unblockmusic.log
 		update
 	else
 		if [ "$(cat /opt/storage/UnblockNeteaseMusic/local_ver)" != "${latest_ver}" ]; then
-			clean_log
-			echo -e "Local version: $(cat /opt/storage/UnblockNeteaseMusic/local_ver 2>/dev/null), cloud version: ${latest_ver}." >>/tmp/unblockmusic_update.log
+			echo -e "$(date -R) # Local version: $(cat /opt/storage/UnblockNeteaseMusic/local_ver 2>/dev/null), cloud version: ${latest_ver}." >>/tmp/unblockmusic.log
 			update
 		else
-			echo -e "\nLocal version: $(cat /opt/storage/UnblockNeteaseMusic/local_ver 2>/dev/null), cloud version: ${latest_ver}." >>/tmp/unblockmusic_update.log
-			echo -e "You're already using the latest version." >>/tmp/unblockmusic_update.log
-			[ "${luci_update}" == "n" ] && /etc/init.d/unblockmusic restart
+			echo -e "$(date -R) # Local version: $(cat /opt/storage/UnblockNeteaseMusic/local_ver 2>/dev/null), cloud version: ${latest_ver}." >>/tmp/unblockmusic.log
+			echo -e "$(date -R) # You're already using the latest version." >>/tmp/unblockmusic.log
+			/opt/storage/UnblockNeteaseMusic/unblockmusic.sh restart
 			exit 3
 		fi
 	fi
 }
-#-----------¸üÐÂ-----------------------------------------
+#-----------æ›´æ–°-----------------------------------------
 function update(){
-	echo -e "Updating ..." >>/tmp/unblockmusic_update.log
+	echo -e "Updating ..." >>/tmp/unblockmusic.log
 
 	if [ ! -x "/opt/storage/UnblockNeteaseMusic/" ]; then
 	mkdir -p "/opt/storage/UnblockNeteaseMusic/"
@@ -55,14 +53,14 @@ function update(){
 	rm -rf "/tmp/unblockneteasemusic" >/dev/null 2>&1
 
 	if [ ! -e "/opt/storage/UnblockNeteaseMusic/UnblockNeteaseMusic" ]; then
-		echo -e "Failed to download core." >>/tmp/unblockmusic_update.log
+		echo -e "$(date -R) # Failed to download." >>/tmp/unblockmusic.log
 		exit 1
 	else
 		echo -e "${latest_ver}" > /opt/storage/UnblockNeteaseMusic/local_ver
 	fi
 
-	echo -e "Succeeded in updating." >/tmp/unblockmusic_update.log
-	echo -e "Local version: $(cat /opt/storage/UnblockNeteaseMusic/local_ver 2>/dev/null), cloud version: ${latest_ver}.\n" >>/tmp/unblockmusic_update.log
+	echo -e "$(date -R) # Succeeded in updating." >/tmp/unblockmusic.log
+	echo -e "$(date -R) # Local version: $(cat /opt/storage/UnblockNeteaseMusic/local_ver 2>/dev/null), cloud version: ${latest_ver}.\n" >>/tmp/unblockmusic.log
 	chmod 777 /opt/storage/UnblockNeteaseMusic/*
 	/opt/storage/UnblockNeteaseMusic/unblockmusic.sh start
 }
