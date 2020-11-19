@@ -33,12 +33,13 @@ function check_latest_version(){
 function update(){
 	echo -e "Updating ..." >>/tmp/unblockmusic_update.log
 
-	if [ ! -x "/opt/storage/UnblockNeteaseMusic/"]; then
+	if [ ! -x "/opt/storage/UnblockNeteaseMusic/" ]; then
 	mkdir -p "/opt/storage/UnblockNeteaseMusic/"
+	echo "/opt/storage/UnblockNeteaseMusic/ not found!"
 	fi
 
-	if[ -e "/opt/storage/UnblockNeteaseMusic/unblockmusic.sh"];then
-    /opt/storage/UnblockNeteaseMusic/unblockmusic.sh stop
+	if [ -f "/opt/storage/UnblockNeteaseMusic/unblockmusic.sh" ]; then
+	/opt/storage/UnblockNeteaseMusic/unblockmusic.sh stop
 	fi
 
 	mkdir -p "/tmp/unblockneteasemusic/" >/dev/null 2>&1

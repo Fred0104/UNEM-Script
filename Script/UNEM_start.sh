@@ -5,6 +5,7 @@ cd `dirname $0`
 case $? in
 0)
 	echo "更新成功"
+	;;
 1)
 	echo "更新失败"
 	;;
