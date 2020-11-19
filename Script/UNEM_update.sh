@@ -33,18 +33,24 @@ function check_latest_version(){
 function update(){
 	echo -e "Updating ..." >>/tmp/unblockmusic_update.log
 
+	if [ ! -x "/opt/storage/UnblockNeteaseMusic/"]; then
+	mkdir -p "/opt/storage/UnblockNeteaseMusic/"
+	fi
+
+	if[ -e "/opt/storage/UnblockNeteaseMusic/unblockmusic.sh"];then
     /opt/storage/UnblockNeteaseMusic/unblockmusic.sh stop
+	fi
 
 	mkdir -p "/tmp/unblockneteasemusic/" >/dev/null 2>&1
 	rm -rf /tmp/unblockneteasemusic/* >/dev/null 2>&1
 
-	wget --no-check-certificate -t 1 -T 10 -O  /tmp/unblockneteasemusic/UNEM.tar.gz "https://github.com/Fred0104/UNEM-Script/main/main.tar.gz"  >/dev/null 2>&1
+	wget --no-check-certificate -t 1 -T 10 -O  /tmp/unblockneteasemusic/UNEM.tar.gz "https://github.com/Fred0104/UNEM-Script/archive/main.tar.gz"  >/dev/null 2>&1
 	tar -zxf "/tmp/unblockneteasemusic/UNEM.tar.gz" -C "/tmp/unblockneteasemusic/" >/dev/null 2>&1
 	if [ -e "/opt/storage/UnblockNeteaseMusic/ca.crt" ] && [ -e "/opt/storage/UnblockNeteaseMusic/server.crt" ] && [ -e "/opt/storage/UnblockNeteaseMusic/server.key" ] ; then
-		rm -f /tmp/unblockneteasemusic/UNEM-main/UNEM/ca.crt /tmp/unblockneteasemusic/UNEM-main/UNEM/server.crt /tmp/unblockneteasemusic/UNEM-main/UNEM/server.key
+		rm -f /tmp/unblockneteasemusic/UNEM-Script-main/UNEM/ca.crt /tmp/unblockneteasemusic/UNEM-Script-main/UNEM/UNEM/server.crt /tmp/unblockneteasemusic/UNEM-Script-main/UNEM/server.key
 	fi
-	cp -a /tmp/unblockneteasemusic/UNEM-main/UNEM/* "/opt/storage/UnblockNeteaseMusic/"
-    chmod 777 /opt/storage/UnblockNeteaseMusic/*.*
+	cp -a /tmp/unblockneteasemusic/UNEM-Script-main/UNEM/* "/opt/storage/UnblockNeteaseMusic/"
+    
 	rm -rf "/tmp/unblockneteasemusic" >/dev/null 2>&1
 
 	if [ ! -e "/opt/storage/UnblockNeteaseMusic/UnblockNeteaseMusic" ]; then
@@ -56,7 +62,7 @@ function update(){
 
 	echo -e "Succeeded in updating." >/tmp/unblockmusic_update.log
 	echo -e "Local version: $(cat /opt/storage/UnblockNeteaseMusic/local_ver 2>/dev/null), cloud version: ${latest_ver}.\n" >>/tmp/unblockmusic_update.log
-	
+	chmod 777 /opt/storage/UnblockNeteaseMusic/*
 	/opt/storage/UnblockNeteaseMusic/unblockmusic.sh start
 }
 

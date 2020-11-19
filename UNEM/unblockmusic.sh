@@ -29,11 +29,17 @@ del_rule(){
 	$ipt_n -D PREROUTING -p tcp -m set --match-set music dst -j CLOUD_MUSIC 2>/dev/null
 	$ipt_n -F CLOUD_MUSIC  2>/dev/null
 	$ipt_n -X CLOUD_MUSIC  2>/dev/null
+
+	ipset -X music_http 2>/dev/null
+	ipset -X music_https 2>/dev/null
+
 	iptables -D OUTPUT -d 223.252.199.10 -j DROP 2>/dev/null
+	
 	sed -i '/dnsmasq.music/d' /etc/storage/dnsmasq/dnsmasq.conf
 	chmod 777 /tmp/dnsmasq.music	
 	rm -rf /tmp/dnsmasq.music
 	/sbin/restart_dhcpd
+	
 }
 
 set_firewall(){
@@ -59,8 +65,8 @@ add_rule
 
 wyy_start()
 {
-        echo "start"
-          cd `dirname $0`
+    echo "start"
+    cd `dirname $0`
     ./UnblockNeteaseMusic -p 5200 -sp 5201 -m 0 -e >/dev/null 2>&1 &
     logger -t "音乐解锁" "启动 Golang Version (http:5200, https:5201)"    	
     set_firewall
