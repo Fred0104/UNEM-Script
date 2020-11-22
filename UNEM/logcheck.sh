@@ -12,7 +12,7 @@ do
   icount=`busybox ps -w | grep UnblockNeteaseMusic | grep -v grep | grep -v logcheck.sh`
 	if [ -z "$icount" ]; then
       ./getmusicip.sh
-      ./UnblockNeteaseMusic restart 
+      ./UnblockNeteaseMusic.sh restart 
   fi
 	if [ ! -f "$log_size" ]; then
  	touch "$log_size"
