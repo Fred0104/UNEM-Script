@@ -4,6 +4,8 @@ log_max_size=1024000
 log_file="/tmp/unblockmusic.log"
 log_size=0
 cd `dirname $0`
+running_tasks="$(ps |grep "unblockneteasemusic" |grep "logcheck" |grep -v "grep" |awk '{print $1}' |wc -l)"
+[ "${running_tasks}" -gt "2" ] && echo -e "$(date -R) # A task is already running." >>/tmp/unblockmusic.log && exit 2
 ./getmusicip.sh
 sleep 5s
 
@@ -25,10 +27,9 @@ do
 	echo "$log_max_size"
 	    if [ $log_size -gt $log_max_size ]; then
 	    echo "$(date -R) # Log is full,clear the log." >/tmp/unblockmusic.log
-	    echo "bigger"
+	    logger -t "音乐解锁" "日志太大了"
         fi
   fi
 	echo "check"
 	sleep 29s
-	logger -t "check"
 done
