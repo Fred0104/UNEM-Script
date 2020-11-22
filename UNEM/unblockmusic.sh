@@ -67,7 +67,7 @@ wyy_start()
 {
     echo "start"
     cd `dirname $0`
-    ./UnblockNeteaseMusic -p 5200 -sp 5201 -m 0 -e >/dev/null 2>&1 &
+    ./UnblockNeteaseMusic -p 5200 -sp 5201 -m 0 -e -l "/tmp/unblockmusic.log" >/dev/null 2>&1 &
     logger -t "音乐解锁" "启动 Golang Version (http:5200, https:5201)"    	
     set_firewall
     ./logcheck.sh >/dev/null 2>&1 &
