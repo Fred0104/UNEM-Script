@@ -23,11 +23,8 @@ do
 	log_size=`ls -l $log_file | awk '{ print $5 }'`
 	echo "$log_size"
 	echo "$log_max_size"
-	    if [ $log_size -lt $log_max_size ]; then
-	    echo "$(date -R) # Start UnblockNeteaseMusic" >>/tmp/unblockmusic.log
-	    echo "smaller"
-	    else
-	    echo "$(date -R) # Start UnblockNeteaseMusic" >/tmp/unblockmusic.log
+	    if [ $log_size -gt $log_max_size ]; then
+	    echo "$(date -R) # Log is full,clear the log." >/tmp/unblockmusic.log
 	    echo "bigger"
         fi
   fi
