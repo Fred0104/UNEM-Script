@@ -16,8 +16,8 @@ do
       ./getmusicip.sh
       ./unblockmusic.sh restart 
   fi
-	if [ ! -f "$log_size" ]; then
- 	touch "$log_size"
+	if [ ! -f "$log_file" ]; then
+ 	touch "$log_file"
 	echo "create a log"
 	echo "$(date -R) # Start UnblockNeteaseMusic" >/tmp/unblockmusic.log
   else

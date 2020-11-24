@@ -1,8 +1,11 @@
 #!/bin/sh
 #--------------------------------------------
 cd `dirname $0`
+sleep 1s
 ./UNEM_update.sh
-case $? in
+s1=$?
+echo "return code:$s1"
+case $s1 in
 0)
 	echo "更新成功"
 	;;
@@ -14,7 +17,6 @@ case $? in
 	;;
 3)
 	echo "已经是最新版本"
-	/opt/storage/UnblockNeteaseMusic/unblockmusic.sh restart
 	;;
 *)
 	echo "出问题了"

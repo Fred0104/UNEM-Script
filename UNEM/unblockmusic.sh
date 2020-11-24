@@ -47,18 +47,19 @@ set_firewall(){
 	rm -f /tmp/dnsmasq.music/dnsmasq-163.conf
 	mkdir -p /tmp/dnsmasq.music
   	cat <<-EOF > "/tmp/dnsmasq.music/dnsmasq-163.conf"
-	ipset=/.music.163.com/music
-	ipset=/interface.music.163.com/music
-	ipset=/interface3.music.163.com/music
-	ipset=/apm.music.163.com/music
-	ipset=/apm3.music.163.com/music
-	ipset=/clientlog.music.163.com/music
-	ipset=/clientlog3.music.163.com/music
+ipset=/.music.163.com/music
+ipset=/interface.music.163.com/music
+ipset=/interface3.music.163.com/music
+ipset=/apm.music.163.com/music
+ipset=/apm3.music.163.com/music
+ipset=/clientlog.music.163.com/music
+ipset=/clientlog3.music.163.com/music
 	EOF
-	sed -i '/dnsmasq.music/d' /etc/storage/dnsmasq/dnsmasq.conf
-	cat >> /etc/storage/dnsmasq/dnsmasq.conf << EOF
-	conf-dir=/tmp/dnsmasq.music
-	EOF
+sed -i '/dnsmasq.music/d' /etc/storage/dnsmasq/dnsmasq.conf
+cat >> /etc/storage/dnsmasq/dnsmasq.conf << EOF
+conf-dir=/tmp/dnsmasq.music
+EOF
+
 	add_rule
 	/sbin/restart_dhcpd
 }
@@ -68,7 +69,7 @@ wyy_start()
     echo "start"
     cd `dirname $0`
     ./UnblockNeteaseMusic -p 5200 -sp 5201 -m 0 -e -l "/tmp/unblockmusic.log" >/dev/null 2>&1 &
-    logger -t "音乐解锁" "启动 Golang Version (http:5200, https:5201)"    	
+    logger -t "【音乐解锁】" "启动 Golang Version (http:5200, https:5201)"    	
     set_firewall
     ./logcheck.sh >/dev/null 2>&1 &
 }
@@ -79,19 +80,19 @@ wyy_close()
 	kill -9 $(busybox ps -w | grep logcheck.sh | grep -v grep | awk '{print $1}') >/dev/null 2>&1
 	
 	del_rule
+	logger -t "音乐解锁" "已关闭"
 }
+
 
 case $1 in
 start)
-	wyy_close
 	wyy_start
 	;;
 stop)
 	wyy_close
-	logger -t "音乐解锁" "已关闭"
 	;;
 restart)
-	logger -t "音乐解锁" "重启中..."
+	logger -t "【音乐解锁】" "重启中..."
 	wyy_close
 	wyy_start
 	;;
