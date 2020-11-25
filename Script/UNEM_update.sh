@@ -81,6 +81,8 @@ function update(){
 	echo -e "$(date -R) # Local version: $(cat /opt/storage/UNEM/local_ver 2>/dev/null), cloud version: ${latest_ver}.\n" >>/tmp/unblockmusic.log
 	chmod 777 /opt/storage/UNEM/*
 	/opt/storage/UNEM/unblockmusic.sh start
+	logger -t "【音乐解锁】" "更新成功"
+	exit 0
 }
 
 function main(){
