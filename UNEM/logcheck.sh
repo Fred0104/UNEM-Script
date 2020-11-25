@@ -30,7 +30,7 @@ do
 				logger -t "【音乐解锁】" "日志太大了"
 			fi
   	fi
-	if [ $( grep "dnsmasq.music" /etc/storage/dnsmasq/dnsmasq.conf ) ]; then
+	if [  -z "$( grep "dnsmasq.music"  /etc/storage/dnsmasq/dnsmasq.conf )" ]; then
 	logger -t "【音乐解锁】" "dnsmasq conf-dir is missing, trying to repair it."
 	cat >> /etc/storage/dnsmasq/dnsmasq.conf << EOF
 conf-dir=/tmp/dnsmasq.music
